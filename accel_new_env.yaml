@@ -1,0 +1,17 @@
+name: accel_env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy=1.21
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - setuptools=59.4
+  - scikit-learn=1.0.1
+  - pip
+  - pip:
+      - install-jdk
+      - git+https://github.com/OxWearables/biobankAccelerometerAnalysis.git
