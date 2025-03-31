@@ -38,7 +38,7 @@ import sys
 /opt/conda/envs/accel_env/lib/python3.10/site-packages/accelerometer/java/*.java
 
 !ls /opt/conda/envs/accel_env/lib/python3.10/site-packages/accelerometer/java/*.class
-
+###############################################PROCESS 1 CWA FILE############################################################
 # Define binary path for accProcess
 acc_bin = os.path.join(os.path.dirname(sys.executable), "accProcess")
 
@@ -51,3 +51,30 @@ acc_bin = os.path.join(os.path.dirname(sys.executable), "accProcess")
 
 # Upload the results
 #!dx upload accOut -r --destination Accelerometer_data/
+
+##############################################PROCESS ALL CWA FILES###########################################################
+import subprocess
+# List CWA files in the specified folder
+result = subprocess.run(["dx", "ls", "/Bulk/Activity/Raw/10/"], capture_output=True, text=True)
+
+# Extract file names ending in .cwa
+cwa_files_10 = [f.strip() for f in result.stdout.splitlines() if f.endswith(".cwa")]
+
+# Show the first few for verification
+print("Found CWA files:", cwa_files_10[:5])
+
+
+# Make folders
+os.makedirs("cwa_input", exist_ok=True)
+os.makedirs("accOut", exist_ok=True)
+
+# Loop through and process each file
+for file in cwa_files_10:
+    file_path = f"/Bulk/Activity/Raw/10/{file}"
+    local_path = f"cwa_input/{file}"
+
+    print(f"Downloading {file}...")
+    subprocess.run(["dx", "download", file_path, "-o", local_path], check=True)
+
+    print(f"Processing {file}...")
+    subprocess.run([acc_bin, local_path, "--outputFolder", "accOut"], check=True)
