@@ -10,3 +10,5 @@ In bash before running the python kernel:
   -To remove an ipykernel before reinstalling: jupyter kernelspec uninstall accel_env
   - To remove the environment use: conda deactivate and conda env remove -n accel_env
 
+Light_Data.ipynb: contains code required to use GGIR packahe in R, look at metadata containing header info, and see light data (including lightmean and lightpeak)
+
